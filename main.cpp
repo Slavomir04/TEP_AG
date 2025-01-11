@@ -1,8 +1,42 @@
 #include <iostream>
+#include "GroupingChallenge/GaussianGroupingEvaluatorFactory.h"
+#include "GroupingChallenge/GroupingEvaluator.h"
+#include "GroupingChallenge/Optimizer.h"
 
-using namespace std;
+#include <random>
+using namespace NGroupingChallenge;
 int main() {
 
+    CGaussianGroupingEvaluatorFactory c_evaluator_factory(5, 100, 5);
+
+    c_evaluator_factory
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0);
+
+    CGroupingEvaluator* pc_evaluator = c_evaluator_factory.pcCreateEvaluator(0);
+
+    COptimizer c_optimizer(*pc_evaluator);
+
+    c_optimizer.vInitialize();
+
+
+
+    for (int i = 0; i < 300; i++)
+    {
+        c_optimizer.vRunIteration();
+    }
+    cout<<"fit: "<<pc_evaluator->dEvaluate(c_optimizer.pvGetCurrentBest())<<endl;
+    for (auto& e : *c_optimizer.pvGetCurrentBest())cout<<e<<" ";
+    cout<<endl;
+    delete pc_evaluator;
 
 
 
