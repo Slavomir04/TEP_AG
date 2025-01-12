@@ -22,6 +22,7 @@ namespace NGroupingChallenge
 		vector<int>* pvGetCurrentBest() { return &v_current_best; }
 
 		void vShowGroups();
+		void bSetShowIteration(bool b);
 	private:
 
 		CGroupingEvaluator& c_evaluator; //nie zmieniaj
@@ -29,6 +30,8 @@ namespace NGroupingChallenge
 		double d_current_best_fitness;  //nie zmieniaj
 		vector<int> v_current_best; //nie zmieniaj
 		mt19937 c_random_engine;
+
+		bool b_show_iterations;
 
 		//probabilities
 		const float fl_cross_probability;

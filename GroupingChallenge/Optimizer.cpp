@@ -5,7 +5,7 @@
 using namespace NGroupingChallenge;
 
 COptimizer::COptimizer(CGroupingEvaluator& cEvaluator)
-	: c_evaluator(cEvaluator),fl_cross_probability(0.6),fl_mut_probability(0.1),i_pop_size(8)
+	: c_evaluator(cEvaluator),fl_cross_probability(0.6),fl_mut_probability(0.1),i_pop_size(8),b_show_iterations(true)
 {
 	random_device c_seed_generator;
 	c_random_engine.seed(c_seed_generator());
@@ -32,6 +32,7 @@ void COptimizer::vInitialize()
 void COptimizer::vRunIteration()
 {
 	//crossing
+
 	vCross();
 
 	//mutation
@@ -40,8 +41,9 @@ void COptimizer::vRunIteration()
 	//evaluation
 	vEvaluate();
 
-
-	printf("best fit is %.2f\n", d_current_best_fitness);
+	if (b_show_iterations) {
+		printf("best fit is %.2f\n", d_current_best_fitness);
+	}
 }
 
 void COptimizer::vShowGroups() {
@@ -54,6 +56,9 @@ void COptimizer::vShowGroups() {
 	}
 }
 
+void COptimizer::bSetShowIteration(bool b) {
+	b_show_iterations = b;
+}
 
 
 void COptimizer::vSetRandomGroupsOfPoints() {
@@ -74,6 +79,8 @@ void COptimizer::vCross() {
 	vector<vector<int>> v_next_gen(i_pop_size);
 	for (int i=0; i<i_pop_size; i+=2) {
 
+
+
 		int i_temp_10 = c_distribution_leftBound_rightBound(c_random_engine);
 		int i_temp_11 = c_distribution_leftBound_rightBound(c_random_engine);
 
@@ -84,6 +91,8 @@ void COptimizer::vCross() {
 		int i_index_right = ( c_evaluator.dEvaluate(v_points_group_position[i_temp_20]) < c_evaluator.dEvaluate(v_points_group_position[i_temp_21])) ? i_temp_20 : i_temp_21;
 
 		int i_cut_position = c_distribution_leftBound_rightBound(c_random_engine) - c_evaluator.iGetLowerBound();
+
+
 
 		if (c_distribution_0_1(c_random_engine)<fl_cross_probability) {
 			std::pair<vector<int>,vector<int>> pairv_current_cross= std::move(pairvCrossTwoGroups(i_index_left, i_index_right,i_cut_position));
@@ -131,7 +140,7 @@ std::pair<vector<int> , vector<int> > COptimizer::pairvCrossTwoGroups(int i_inde
 		v_right[index] = v_points_group_position[i_index_2][index];
 		index++;
 	}
-	while (index<=i_count_points) {
+	while (index<i_count_points) {
 		v_left[index] = v_points_group_position[i_index_2][index];
 		v_right[index] = v_points_group_position[i_index_1][index];
 		index++;
