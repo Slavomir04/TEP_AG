@@ -12,7 +12,18 @@ add_executable(TEP_AG main.cpp
         GroupingChallenge/GroupingEvaluator.h
         GroupingChallenge/GroupingEvaluator.cpp
         GroupingChallenge/GroupingChallenge.cpp
-        GroupingChallenge/GaussianGroupingEvaluatorFactory.h)
+        GroupingChallenge/GaussianGroupingEvaluatorFactory.h
+        GeneticAlgorithm/CInvidual.cpp
+        GeneticAlgorithm/CInvidual.h
+        GeneticAlgorithm/CGeneticAlgorithm.cpp
+        GeneticAlgorithm/CGeneticAlgorithm.h
+        GeneticAlgorithm/Evaluator.cpp
+        GeneticAlgorithm/Evaluator.h
+        GeneticAlgorithm/Point.cpp
+        GeneticAlgorithm/Point.h
+        GeneticAlgorithm/RandomGenerator.h
+        GeneticAlgorithm/RandomGenerator.cpp
+)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -34,6 +45,16 @@ add_executable(my_tests test.cpp test.cpp
         GroupingChallenge/GroupingEvaluator.cpp
         GroupingChallenge/GroupingChallenge.cpp
         GroupingChallenge/GaussianGroupingEvaluatorFactory.h
+        GeneticAlgorithm/CInvidual.cpp
+        GeneticAlgorithm/CInvidual.h
+        GeneticAlgorithm/CGeneticAlgorithm.cpp
+        GeneticAlgorithm/CGeneticAlgorithm.h
+        GeneticAlgorithm/Evaluator.cpp
+        GeneticAlgorithm/Evaluator.h
+        GeneticAlgorithm/Point.cpp
+        GeneticAlgorithm/Point.h
+        GeneticAlgorithm/RandomGenerator.cpp
+        GeneticAlgorithm/RandomGenerator.h
 )
 target_link_libraries(my_tests gtest gtest_main)
 add_test(NAME MyTests COMMAND my_tests)

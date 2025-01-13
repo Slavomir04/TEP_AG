@@ -3,97 +3,37 @@
 //
 
 #include <gtest/gtest.h>
-#define private public
-#include "GroupingChallenge/Optimizer.h"
-#undef private
 
-#include "GroupingChallenge/GaussianGroupingEvaluatorFactory.h"
-#include "GroupingChallenge/GroupingEvaluator.h"
+#include "GeneticAlgorithm/CInvidual.h"
+#include "GeneticAlgorithm/Evaluator.h"
 
 
-using namespace NGroupingChallenge;
-TEST(OptimizerTest,distributionBoundsTest) {
-    CGaussianGroupingEvaluatorFactory c_evaluator_factory(5, 100, 5);
+using namespace std;
+TEST(EvaluatorTest, init) {
+    const int i_count_points = 100;
+    const int i_groups = 50;
+    vector<Point> vec_points;
+    vector<int> vec_genotype;
+    int result_1000 = 2236;
+    int i_temp = 1;
+    for (int i = 0; i < i_count_points; i++) {
+        vec_points.push_back(Point({(double)i,(double)i*2}));
+        vec_genotype.push_back(i_temp);
+        i_temp+=(i)%2;
+    }
 
-    c_evaluator_factory
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0);
+    Evaluator eval(vec_points,i_groups);
 
-    CGroupingEvaluator* pc_evaluator = c_evaluator_factory.pcCreateEvaluator(0);
+    EXPECT_EQ(i_groups,eval.iGetNumGroups());
+    EXPECT_EQ(eval.iGetPointsCount(),i_count_points);
+    EXPECT_EQ(eval.dEvaluate(vec_genotype)>0,true);
 
-    COptimizer c_optimizer(*pc_evaluator);
-    c_optimizer.vInitialize();
-
-
-    EXPECT_EQ(c_optimizer.c_distribution_leftBound_rightBound.min(),pc_evaluator->iGetLowerBound());
-    EXPECT_EQ(c_optimizer.c_distribution_leftBound_rightBound.max(),pc_evaluator->iGetUpperBound());
-
-    EXPECT_EQ(c_optimizer.c_distribution_0_1.min(),0);
-    EXPECT_EQ(c_optimizer.c_distribution_0_1.max(),1);
-    delete pc_evaluator;
 }
 
-TEST(OptimizerTest,mutationFunctionsTest) {
-    int i_groups = 5;
-    int i_points = 5;
-    CGaussianGroupingEvaluatorFactory c_evaluator_factory(i_groups, i_points, 5);
-
-    c_evaluator_factory
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0)
-        .cAddDimension(-100, 100, 1.0, 1.0);
-
-    CGroupingEvaluator* pc_evaluator = c_evaluator_factory.pcCreateEvaluator(0);
-
-    COptimizer c_optimizer(*pc_evaluator);
-    c_optimizer.vInitialize();
+TEST(CInvidualTest,fulltest) {
 
 
-    vector<int> v1 = {1,2,3,4,5};
-    vector<int> v2 = {5,4,3,2,1};
-
-    c_optimizer.v_points_group_position[0] = v1;
-    c_optimizer.v_points_group_position[1] = v2;
-
-    vector<int> result;
-    std::pair<vector<int>&,vector<int>&> pair_(v1,v2);
-
-
-    result = {1,2,3,2,1};
-    pair_ = c_optimizer.pairvCrossTwoGroups(0,1,2);
-    EXPECT_EQ(pair_.first,result);
-
-    result = {5,4,3,4,5};
-    pair_ = c_optimizer.pairvCrossTwoGroups(0,1,2);
-    EXPECT_EQ(pair_.second,result);
-
-    result = {1,4,3,2,1};
-    pair_ = c_optimizer.pairvCrossTwoGroups(0,1,1);
-    EXPECT_EQ(pair_.first,result);
-
-    result = {5,2,3,4,5};
-    pair_ = c_optimizer.pairvCrossTwoGroups(0,1,1);
-    EXPECT_EQ(pair_.second,result);
-
-
-    delete pc_evaluator;
 }
-
 
 
 

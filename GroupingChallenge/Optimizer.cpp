@@ -5,7 +5,7 @@
 using namespace NGroupingChallenge;
 
 COptimizer::COptimizer(CGroupingEvaluator& cEvaluator)
-	: c_evaluator(cEvaluator),fl_cross_probability(0.6),fl_mut_probability(0.1),i_pop_size(8),b_show_iterations(true)
+	: c_evaluator(cEvaluator),fl_cross_probability(0.6),fl_mut_probability(0.1),i_pop_size(cEvaluator.iGetNumberOfPoints()%2==0 ? cEvaluator.iGetNumberOfPoints():cEvaluator.iGetNumberOfPoints()+1),b_show_iterations(true)
 {
 	random_device c_seed_generator;
 	c_random_engine.seed(c_seed_generator());
