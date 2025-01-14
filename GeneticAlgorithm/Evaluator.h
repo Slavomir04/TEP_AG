@@ -16,7 +16,7 @@ public:
     int iGetLowBound();
     int iGetHighBound();
     int iGetNumGroups();
-
+    vector<Point> vecGetPoints();
     private:
     vector<Point> vec_points;
 private:

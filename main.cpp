@@ -8,6 +8,7 @@
 
 #include "GroupingChallenge/Point.h"
 #include "GroupingChallenge/Point.h"
+#include "Visual/Visual.h"
 using namespace std;
 
 void vShow(vector<Point> vec) {
@@ -32,9 +33,34 @@ vector<int> vecFinSolution(vector<Point> points,int i_groups) {
     return algorithm.cGetBestIndividual().vecGetGenotype();
 }
 
+vector<pair<double,double>> vecConvertToPairPoint(vector<Point>& vec) {
+    vector<pair<double,double>> vec_result;
+    for (auto &p : vec) {
+        if (p.vecGetDimension().size()==2) {
+            vec_result.emplace_back(p.vecGetDimension()[0],p.vecGetDimension()[1]);
+        }
+    }
+    return vec_result;
+}
 
-
-
+void vMakeVisual(Evaluator* evaluator,vector<int>& vec_genotype,vector<sf::Color> vec_colors) {
+    cout<<"Running visualizer...";
+    Visual visual(1000,1000,"visual",15,15);
+    visual.vSetColors(vec_colors);
+    vector<Point> points = move(evaluator->vecGetPoints());
+    visual.vSetPoints(vecConvertToPairPoint(points));
+    visual.vPaint(vec_genotype,evaluator->iGetLowBound());
+    visual.run();
+}
+void vMakeVisual(Evaluator* evaluator,vector<int>& vec_genotype) {
+    vector<sf::Color> colors;
+    for (int i=0; i<=evaluator->iGetNumGroups(); i++) {
+        int modifier = 255/evaluator->iGetNumGroups();
+        cout<<"current color: "<<i*modifier<<endl;
+        colors.emplace_back(i*modifier,i*modifier,i*modifier);
+    }
+    vMakeVisual(evaluator,vec_genotype,colors);
+}
 int main() {
 
     vector<Point> points = {
@@ -44,11 +70,14 @@ int main() {
         {{3,4}},
         {{-5,4}},
         {{-7,1}},
-        {{0,0}},
     };
+    int i_groups = 3;
+    Evaluator evaluator(points,i_groups);
+    CGeneticAlgorithm algorithm(&evaluator);
+    algorithm.run();
+    vShow(algorithm.cGetBestIndividual().vecGetGenotype());
+    vMakeVisual(&evaluator,algorithm.cGetBestIndividual().vecGetGenotype(),{sf::Color::Yellow,sf::Color::Green,sf::Color::Red});
 
-    vector<int> result = vecFinSolution(points,3);
-    vShow(result);
 
 
     return 0;

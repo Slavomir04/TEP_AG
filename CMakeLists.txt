@@ -23,7 +23,10 @@ add_executable(TEP_AG main.cpp
         GeneticAlgorithm/Point.h
         GeneticAlgorithm/RandomGenerator.h
         GeneticAlgorithm/RandomGenerator.cpp
+        Visual/Visual.h
+        Visual/Visual.cpp
 )
+set(BUILD_SHARED_LIBS OFF)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -32,6 +35,15 @@ FetchContent_Declare(
         GIT_TAG        release-1.11.0  # Możesz zmienić na najnowszą wersję
 )
 FetchContent_MakeAvailable(googletest)
+
+set(SFML_STATIC_LIBRARIES TRUE)
+FetchContent_Declare(
+        sfml
+        GIT_REPOSITORY https://github.com/SFML/SFML.git
+        GIT_TAG 2.6.2
+)
+FetchContent_MakeAvailable(sfml)
+target_link_libraries(${PROJECT_NAME} sfml-system sfml-window sfml-graphics sfml-audio)
 
 enable_testing()
 
@@ -55,6 +67,8 @@ add_executable(my_tests test.cpp test.cpp
         GeneticAlgorithm/Point.h
         GeneticAlgorithm/RandomGenerator.cpp
         GeneticAlgorithm/RandomGenerator.h
+        Visual/Visual.cpp
+        Visual/Visual.h
 )
 target_link_libraries(my_tests gtest gtest_main)
 add_test(NAME MyTests COMMAND my_tests)

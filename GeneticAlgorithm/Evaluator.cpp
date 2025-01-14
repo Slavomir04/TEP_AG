@@ -57,6 +57,10 @@ int Evaluator::iGetNumGroups() {
         return i_high_bound-i_low_bound+1;
 }
 
+vector<Point> Evaluator::vecGetPoints() {
+        return vec_points;
+}
+
 
 
 
