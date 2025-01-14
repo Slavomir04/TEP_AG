@@ -7,24 +7,22 @@
 
 
 CInvidual::CInvidual(Evaluator *pc_evaluator,RandomGenerator* pc_random_generator) {
-    if (pc_evaluator != nullptr && pc_random_generator != nullptr) {
+    b_initilised = pc_evaluator != nullptr && pc_random_generator != nullptr;
+    if (b_initilised) {
         vFirstInit();
         this->pc_evaluator = pc_evaluator;
         this->pc_random_generator = pc_random_generator;
         vRandomInit();
-    }else {
-        vThrowError(str_init_error);
     }
 }
 
 CInvidual::CInvidual(Evaluator* pc_evaluator,RandomGenerator* pc_random_generator, vector<int> &vec_genotype) {
-    if (pc_evaluator != nullptr && pc_random_generator != nullptr) {
+    b_initilised = pc_evaluator != nullptr && pc_random_generator != nullptr;
+    if (b_initilised) {
         vFirstInit();
         this->pc_evaluator = pc_evaluator;
         this->pc_random_generator = pc_random_generator;
         this->vec_genotype = move(vec_genotype);
-    }else {
-        vThrowError(str_nullptr);
     }
 }
 
@@ -50,7 +48,7 @@ CInvidual& CInvidual::operator=(CInvidual&& c_other) {
     return *this;
 }
 void CInvidual::vMutation(double d_probability) {
-    if (pc_evaluator != nullptr && pc_random_generator != nullptr) {
+    if (b_initilised) {
         d_fitness = d_Wrong_value;
         uniform_int_distribution<int> c_distribution_point = uniform_int_distribution<int>(pc_evaluator->iGetLowBound(), pc_evaluator->iGetHighBound());
         for (int i=0; i<this->vec_genotype.size(); i++) {
@@ -58,15 +56,12 @@ void CInvidual::vMutation(double d_probability) {
                 vec_genotype[i] = pc_random_generator->iGetRandomNumber(c_distribution_point);
             }
         }
-    }else {
-        vThrowError(str_nullptr);
     }
 }
 
 pair<CInvidual, CInvidual> CInvidual::paircCrossover(const CInvidual &c_other) {
-    if (pc_evaluator != nullptr && pc_random_generator != nullptr) {
-        if (this->vec_genotype.size() == c_other.vec_genotype.size() && this->vec_genotype.size() > 1) {
-
+    pair<CInvidual, CInvidual> c_result;
+    if (b_initilised && c_other.b_initilised && this->vec_genotype.size() == c_other.vec_genotype.size() && this->vec_genotype.size() > 1) {
             CInvidual c_new_1(*this);
             CInvidual c_new_2(c_other);
 
@@ -77,23 +72,23 @@ pair<CInvidual, CInvidual> CInvidual::paircCrossover(const CInvidual &c_other) {
                 index++;
             }
 
-            return make_pair(c_new_1, c_new_2);
-        }else if (this->vec_genotype.size() != c_other.vec_genotype.size()){
-            vThrowError(str_non_compatibility);
-        }
+          c_result = make_pair(c_new_1, c_new_2);
     }else {
-        vThrowError(str_nullptr);
+       c_result = make_pair(c_other, c_other);
     }
+    return c_result;
 }
 
 
 double CInvidual::dEvaluate() {
-    if (pc_evaluator!=nullptr) {
+    if (b_initilised) {
         if (d_fitness == d_Wrong_value) {
             d_fitness = pc_evaluator->dEvaluate(vec_genotype);
         }
         return d_fitness;
-    } else vThrowError(str_nullptr);
+    }else {
+        return d_Wrong_value;
+    }
 }
 
 vector<int>& CInvidual::vecGetGenotype() {
@@ -124,6 +119,7 @@ void CInvidual::vCopy(const CInvidual &c_other) {
     pc_random_generator = c_other.pc_random_generator;
     vec_genotype = c_other.vec_genotype;
     d_fitness = c_other.d_fitness;
+    b_initilised = c_other.b_initilised;
 }
 
 void CInvidual::vCopyMove(CInvidual &&c_other) {
@@ -131,12 +127,12 @@ void CInvidual::vCopyMove(CInvidual &&c_other) {
     pc_random_generator = c_other.pc_random_generator;
     vec_genotype = move(c_other.vec_genotype);
     d_fitness = c_other.d_fitness;
+    b_initilised = c_other.b_initilised;
 
     c_other.d_fitness = c_other.d_Wrong_value;
     c_other.pc_evaluator = nullptr;
     c_other.pc_random_generator = nullptr;
+    c_other.b_initilised = false;
 }
 
-void CInvidual::vThrowError(const string& str_error) {
-    throw runtime_error(str_error);
-}
+

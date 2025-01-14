@@ -29,9 +29,7 @@ public:
 private:
 
     const double d_Wrong_value = -1;
-    const string str_init_error = "CInvidual init error";
-    const string str_non_compatibility = "CInvidual, two inviduals are not compatibile";
-    const string str_nullptr = "Evaluator or RandomGenerator is null";
+    bool b_initilised;
 
     Evaluator* pc_evaluator;
     RandomGenerator* pc_random_generator;
@@ -43,7 +41,7 @@ private:
     void vRandomInit();
     void vCopy(const CInvidual& c_other);
     void vCopyMove(CInvidual&& c_other);
-    void vThrowError(const string& str_error);
+
 };
 
 
