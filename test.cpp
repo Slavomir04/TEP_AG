@@ -30,10 +30,6 @@ TEST(EvaluatorTest, init) {
 
 }
 
-TEST(CInvidualTest,fulltest) {
-
-
-}
 
 
 

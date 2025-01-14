@@ -21,8 +21,6 @@ public:
     vector<Point> vec_points;
 private:
     const double d_Wrong_value = -1;
-    mt19937 c_random_engine;
-
     const int i_low_bound;
     const int i_high_bound;
 };

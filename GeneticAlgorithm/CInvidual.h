@@ -12,24 +12,26 @@
 using namespace std;
 class CInvidual { //osobnik
 public:
+    CInvidual();
     CInvidual(Evaluator* pc_evaluator,RandomGenerator* pc_random_generator);
     CInvidual(Evaluator* pc_evaluator,RandomGenerator* pc_random_generator,vector<int>& vec_genotype);
     CInvidual(CInvidual&& c_other);
+    CInvidual(const CInvidual& c_other);
     CInvidual& operator=(const CInvidual& c_other);
     CInvidual& operator=(CInvidual&& c_other);
 
 
-    void vMutation(double d_Treshold);
+    void vMutation(double d_probability);
     pair<CInvidual,CInvidual> paircCrossover(const CInvidual& c_other);
-    pair<CInvidual,CInvidual> paircCrossover(CInvidual&& c_other);
     double dEvaluate();
     vector<int>& vecGetGenotype();
 
 private:
-    CInvidual();
+
     const double d_Wrong_value = -1;
     const string str_init_error = "CInvidual init error";
     const string str_non_compatibility = "CInvidual, two inviduals are not compatibile";
+    const string str_nullptr = "Evaluator or RandomGenerator is null";
 
     Evaluator* pc_evaluator;
     RandomGenerator* pc_random_generator;
@@ -41,7 +43,7 @@ private:
     void vRandomInit();
     void vCopy(const CInvidual& c_other);
     void vCopyMove(CInvidual&& c_other);
-    void vThrowInitError(const string& str_error);
+    void vThrowError(const string& str_error);
 };
 
 
