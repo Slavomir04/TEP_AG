@@ -4,15 +4,16 @@ project(TEP_AG)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(TEP_AG main.cpp
-        GroupingChallenge/GaussianGroupingEvaluatorFactory.cpp
-        GroupingChallenge/Point.h
-        GroupingChallenge/Point.cpp
-        GroupingChallenge/Optimizer.h
-        GroupingChallenge/Optimizer.cpp
-        GroupingChallenge/GroupingEvaluator.h
-        GroupingChallenge/GroupingEvaluator.cpp
-        GroupingChallenge/GroupingChallenge.cpp
-        GroupingChallenge/GaussianGroupingEvaluatorFactory.h
+        #GroupingChallenge/GaussianGroupingEvaluatorFactory.cpp
+        #GroupingChallenge/Point.h
+        #GroupingChallenge/Point.cpp
+        #GroupingChallenge/Optimizer.h
+        #GroupingChallenge/Optimizer.cpp
+        #GroupingChallenge/GroupingEvaluator.h
+        #GroupingChallenge/GroupingEvaluator.cpp
+        #GroupingChallenge/GroupingChallenge.cpp
+        #GroupingChallenge/GaussianGroupingEvaluatorFactory.h
+
         GeneticAlgorithm/CInvidual.cpp
         GeneticAlgorithm/CInvidual.h
         GeneticAlgorithm/CGeneticAlgorithm.cpp
@@ -23,6 +24,8 @@ add_executable(TEP_AG main.cpp
         GeneticAlgorithm/Point.h
         GeneticAlgorithm/RandomGenerator.h
         GeneticAlgorithm/RandomGenerator.cpp
+        GeneticAlgorithm/MyEvaluatorFactory.h
+        GeneticAlgorithm/MyEvaluatorFactory.cpp
 )
 
 include(FetchContent)
@@ -55,6 +58,8 @@ add_executable(my_tests test.cpp test.cpp
         GeneticAlgorithm/Point.h
         GeneticAlgorithm/RandomGenerator.cpp
         GeneticAlgorithm/RandomGenerator.h
+        GeneticAlgorithm/MyEvaluatorFactory.cpp
+        GeneticAlgorithm/MyEvaluatorFactory.h
 )
 target_link_libraries(my_tests gtest gtest_main)
 add_test(NAME MyTests COMMAND my_tests)

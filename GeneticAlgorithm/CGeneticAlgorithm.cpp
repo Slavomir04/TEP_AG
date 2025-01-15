@@ -8,7 +8,8 @@
 
 
 CGeneticAlgorithm::CGeneticAlgorithm(Evaluator *evaluator) {
-    if (evaluator !=nullptr) {
+    b_initalised = evaluator!=nullptr;
+    if (b_initalised) {
 
 
         this->evaluator = evaluator;
@@ -25,36 +26,34 @@ CGeneticAlgorithm::CGeneticAlgorithm(Evaluator *evaluator) {
 
         d_best_fitness = DBL_MAX;
         vEvaluate();
-    }else {
-        vThrowError(str_init_error);
     }
 }
 
 void CGeneticAlgorithm::run() {
-    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-    bool b_loop = true;
-    cout<<"start best fitness: "<<d_best_fitness<<endl;
-    while (b_loop) {
-        vMutate();
-        vCross();
-        vEvaluate();
-        std::chrono::duration<double> elapsed = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start);
-        double d_counted = elapsed.count();
-        if (d_counted > d_run_time_sec) {
-            b_loop = false;
+    if (b_initalised) {
+        std::chrono::high_resolution_clock::time_point time_start = std::chrono::high_resolution_clock::now();
+        bool b_loop = true;
+        cout<<"start best fitness: "<<d_best_fitness<<endl;
+        while (b_loop) {
+            vMutate();
+            vCross();
+            vEvaluate();
+            std::chrono::duration<double> time_elapsed = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - time_start);
+            double d_counted = time_elapsed.count();
+            if (d_counted > d_run_time_sec) {
+                b_loop = false;
+            }
+            cout<<"current fitness: "<<d_best_fitness<<endl;
         }
-        cout<<"current fitness: "<<d_best_fitness<<endl;
+        cout<<"best fitness: "<<d_best_fitness<<endl;
     }
-    cout<<"best fitness: "<<d_best_fitness<<endl;
 }
 
 CInvidual CGeneticAlgorithm::cGetBestIndividual() {
     return c_best_individual;
 }
 
-void CGeneticAlgorithm::vThrowError(const string &str_error) {
-    throw runtime_error(str_error);
-}
+
 
 void CGeneticAlgorithm::vEvaluate() {
     for (int i=0; i<i_population; i++) {

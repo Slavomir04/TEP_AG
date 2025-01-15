@@ -3,11 +3,10 @@
 #include "GeneticAlgorithm/CInvidual.h"
 #include "GeneticAlgorithm/Evaluator.h"
 #include "GeneticAlgorithm/Point.h"
+#include "GeneticAlgorithm/CGeneticAlgorithm.h"
 #include <chrono>
 
-
-#include "GroupingChallenge/Point.h"
-#include "GroupingChallenge/Point.h"
+#include "GeneticAlgorithm/MyEvaluatorFactory.h"
 using namespace std;
 
 void vShow(vector<Point> vec) {
@@ -25,12 +24,8 @@ void vShow(vector<int> vec) {
     cout<<"}"<<endl;
 }
 
-vector<int> vecFinSolution(vector<Point> points,int i_groups) {
-    Evaluator evaluator(points,i_groups);
-    CGeneticAlgorithm algorithm(&evaluator);
-    algorithm.run();
-    return algorithm.cGetBestIndividual().vecGetGenotype();
-}
+
+
 
 
 
@@ -46,11 +41,24 @@ int main() {
         {{-7,1}},
         {{0,0}},
     };
-
-    vector<int> result = vecFinSolution(points,3);
+    Evaluator evaluator(points,3);
+    CGeneticAlgorithm algorithm(&evaluator);
+    algorithm.run();
+    vector<int> result = algorithm.cGetBestIndividual().vecGetGenotype();
     vShow(result);
 
-
+    /*
+    int i_points = 100;
+    int i_dims = 3;
+    int i_range = 100;
+    int i_groups = 5;
+    MyEvaluatorFactory factory(100,3,100,5);
+    Evaluator* pc_evaluator = factory.createEvaluator();
+    CGeneticAlgorithm c_genetic_algorithm(pc_evaluator);
+    c_genetic_algorithm.run();
+    vShow(c_genetic_algorithm.cGetBestIndividual().vecGetGenotype());
+    delete pc_evaluator;
+    */
     return 0;
 }
 

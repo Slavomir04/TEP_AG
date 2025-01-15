@@ -11,7 +11,7 @@ using namespace std;
 class Evaluator {
 public:
     Evaluator(vector<Point> vec_points,int i_groups);
-    double dEvaluate(vector<int> vec_genotype);
+    double dEvaluate(vector<int>& vec_genotype);
     int iGetPointsCount();
     int iGetLowBound();
     int iGetHighBound();
@@ -21,8 +21,7 @@ public:
     vector<Point> vec_points;
 private:
     const double d_Wrong_value = -1;
-    const int i_low_bound;
-    const int i_high_bound;
+    const int i_groups_count;
 };
 
 

@@ -18,11 +18,10 @@ public:
     void run();
     CInvidual cGetBestIndividual();
 private:
-    const string str_init_error = "init error";
-    const double d_mut_probability = 0.4;
+    const double d_mut_probability = 0.1;
     const double d_cross_probability = 0.5;
     const double d_run_time_sec = 10.0;
-
+    bool b_initalised;
 
     int i_population; //musi być parzysta
     Evaluator* evaluator;

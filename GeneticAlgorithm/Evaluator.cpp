@@ -7,10 +7,10 @@
 #include <stdexcept>
 
 Evaluator::Evaluator(vector<Point> vec_points,int i_groups) :
-        vec_points(vec_points), i_low_bound(1),i_high_bound(i_groups){
+        vec_points(vec_points),i_groups_count(i_groups){
 }
 
-double Evaluator::dEvaluate(vector<int> vec_genotype) {
+double Evaluator::dEvaluate(vector<int>& vec_genotype) {
         double d_distance_sum = 0;
         double d_distance = 0;
 
@@ -21,7 +21,7 @@ double Evaluator::dEvaluate(vector<int> vec_genotype) {
         }
 
         for (int i = 0; i < vec_genotype.size(); i++) {
-                if (vec_genotype[i] <= i_high_bound && vec_genotype[i] >= i_low_bound) {
+                if (vec_genotype[i] <= i_groups_count && vec_genotype[i] >= 1) {
                         for (int j = i+1; j < vec_genotype.size(); j++) {
                                 if (vec_genotype[i] == vec_genotype[j]) { //ta sama grupa
                                         d_distance = vec_points[i].dCalculateDistance(vec_points[j]);
@@ -46,15 +46,15 @@ int Evaluator::iGetPointsCount() {
 }
 
 int Evaluator::iGetLowBound() {
-        return i_low_bound;
+        return 1;
 }
 
 int Evaluator::iGetHighBound() {
-        return i_high_bound;
+        return i_groups_count;
 }
 
 int Evaluator::iGetNumGroups() {
-        return i_high_bound-i_low_bound+1;
+        return i_groups_count;
 }
 
 
