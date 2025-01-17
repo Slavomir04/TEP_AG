@@ -7,14 +7,14 @@
 
 #include <vector>
 #include <random>
-#include "Evaluator.h"
+#include "../GroupingChallenge/GroupingEvaluator.h"
 #include "RandomGenerator.h"
 using namespace std;
 class CInvidual { //osobnik
 public:
     CInvidual();
-    CInvidual(Evaluator* pc_evaluator,RandomGenerator* pc_random_generator);
-    CInvidual(Evaluator* pc_evaluator,RandomGenerator* pc_random_generator,vector<int>& vec_genotype);
+    CInvidual(NGroupingChallenge::CGroupingEvaluator* pc_evaluator,RandomGenerator* pc_random_generator);
+    CInvidual(NGroupingChallenge::CGroupingEvaluator* pc_evaluator,RandomGenerator* pc_random_generator,vector<int>& vec_genotype);
     CInvidual(CInvidual&& c_other);
     CInvidual(const CInvidual& c_other);
     CInvidual& operator=(const CInvidual& c_other);
@@ -22,7 +22,7 @@ public:
 
 
     void vMutation(double d_probability);
-    pair<CInvidual,CInvidual> paircCrossover(const CInvidual& c_other);
+    pair<CInvidual,CInvidual> paircCrossover(double d_probability,const CInvidual& c_other);
     double dEvaluate();
     vector<int>& vecGetGenotype();
 
@@ -31,13 +31,13 @@ private:
     const double d_Wrong_value = -1;
     bool b_initilised;
 
-    Evaluator* pc_evaluator;
+    NGroupingChallenge::CGroupingEvaluator* pc_evaluator;
     RandomGenerator* pc_random_generator;
     vector<int> vec_genotype;
     uniform_real_distribution<double> c_distribution_0_1;
     double d_fitness;
     //func
-    void vFirstInit();
+    void vFirstInit( NGroupingChallenge::CGroupingEvaluator* pc_evaluator,RandomGenerator* pc_random_generator);
     void vRandomInit();
     void vCopy(const CInvidual& c_other);
     void vCopyMove(CInvidual&& c_other);

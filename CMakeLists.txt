@@ -19,16 +19,13 @@ set(source_1
         GeneticAlgorithm/CInvidual.h
         GeneticAlgorithm/CGeneticAlgorithm.cpp
         GeneticAlgorithm/CGeneticAlgorithm.h
-        GeneticAlgorithm/Evaluator.cpp
-        GeneticAlgorithm/Evaluator.h
-        GeneticAlgorithm/Point.cpp
-        GeneticAlgorithm/Point.h
         GeneticAlgorithm/RandomGenerator.h
         GeneticAlgorithm/RandomGenerator.cpp
-        GeneticAlgorithm/MyEvaluatorFactory.h
-        GeneticAlgorithm/MyEvaluatorFactory.cpp
 )
-add_executable(TEP_AG main.cpp ${source_1})
+add_executable(TEP_AG main.cpp
+        ${source_0}
+        ${source_1}
+)
 
 include(FetchContent)
 FetchContent_Declare(

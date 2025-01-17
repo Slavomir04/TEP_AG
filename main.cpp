@@ -1,64 +1,66 @@
 #include <iostream>
+#include <vector>
 #include "GeneticAlgorithm/CGeneticAlgorithm.h"
-#include "GeneticAlgorithm/CInvidual.h"
-#include "GeneticAlgorithm/Evaluator.h"
-#include "GeneticAlgorithm/Point.h"
-#include "GeneticAlgorithm/CGeneticAlgorithm.h"
-#include <chrono>
+#include "GroupingChallenge/GaussianGroupingEvaluatorFactory.h"
 
-#include "GeneticAlgorithm/MyEvaluatorFactory.h"
-using namespace std;
-
-void vShow(vector<Point> vec) {
-    cout<<"{";
-    for (auto&e : vec) {
-        cout<<"{";
-        for (auto &d : e.vecGetDimension())cout<<d<<",";
-        cout<<"} ";
-    }
-    cout<<"}"<<endl;
-}
-void vShow(vector<int> vec) {
-    cout<<"{";
-    for (auto&e : vec)cout<<e<<",";
-    cout<<"}"<<endl;
+using namespace NGroupingChallenge;
+void vShow(std::vector<int> vec) {
+    std::cout<<"{";
+    for (auto&e : vec)std::cout<<e<<",";
+    std::cout<<"}"<<std::endl;
 }
 
-
-
-
-
-
+CPoint generatePoint(double x,double y) {
+    CPoint p;
+    p.vAddCoordinate(x);
+    p.vAddCoordinate(y);
+    return p;
+}
 
 int main() {
-
-    vector<Point> points = {
-        {{2,-3}},
-        {{3,-2}},
-        {{1,5}},
-        {{3,4}},
-        {{-5,4}},
-        {{-7,1}},
-        {{0,0}},
-    };
-    Evaluator evaluator(points,3);
-    CGeneticAlgorithm algorithm(&evaluator);
-    algorithm.run();
-    vector<int> result = algorithm.cGetBestIndividual().vecGetGenotype();
-    vShow(result);
-
     /*
-    int i_points = 100;
-    int i_dims = 3;
-    int i_range = 100;
-    int i_groups = 5;
-    MyEvaluatorFactory factory(100,3,100,5);
-    Evaluator* pc_evaluator = factory.createEvaluator();
-    CGeneticAlgorithm c_genetic_algorithm(pc_evaluator);
-    c_genetic_algorithm.run();
-    vShow(c_genetic_algorithm.cGetBestIndividual().vecGetGenotype());
-    delete pc_evaluator;
+    std::vector<CPoint> points;
+    points.push_back(generatePoint(3,5));
+    points.push_back(generatePoint(4,4));
+    points.push_back(generatePoint(-20,7));
+    points.push_back(generatePoint(-7,5));
+    points.push_back(generatePoint(0,0));
+    CGroupingEvaluator evaluator(3,points);
+    CGeneticAlgorithm algorithm(evaluator);
+    algorithm.vSetCrossoverProbability(0.6);
+    algorithm.vSetMutationProbability(0.2);
+    algorithm.vSetEvenPopulationSize(12);
+    algorithm.vSetRunTime(15);
+    algorithm.vInitilized();
+    algorithm.vRun();
+    vShow(algorithm.vecGetBestSolution());
+    cout<<"win:"<<algorithm.dGestBestFitness();
     */
+    CGaussianGroupingEvaluatorFactory c_evaluator_factory(5, 100, 5);
+
+    c_evaluator_factory
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0)
+        .cAddDimension(-100, 100, 1.0, 1.0);
+
+    CGroupingEvaluator* pc_evaluator = c_evaluator_factory.pcCreateEvaluator(0);
+    CGeneticAlgorithm algorithm(*pc_evaluator);
+    algorithm.vSetCrossoverProbability(0.6);
+    algorithm.vSetMutationProbability(0.2);
+    algorithm.vSetEvenPopulationSize(900);
+    algorithm.vSetRunTime(5);
+    algorithm.vInitilized();
+    algorithm.vRun();
+    cout<<algorithm.dGestBestFitness()<<endl;
+    delete pc_evaluator;
+
     return 0;
 }
 
