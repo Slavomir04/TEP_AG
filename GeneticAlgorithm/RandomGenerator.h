@@ -15,7 +15,6 @@ public:
   double dGetRandomNumber(std::uniform_real_distribution<double>& uniform);
   int iGetRandomNumber(std::uniform_int_distribution<int>& uniform);
 private:
-  std::random_device c_rd;
   std::mt19937 c_random_engine;
 };
 

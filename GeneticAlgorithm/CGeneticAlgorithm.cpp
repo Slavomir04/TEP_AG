@@ -15,9 +15,7 @@ CGeneticAlgorithm::CGeneticAlgorithm(NGroupingChallenge::CGroupingEvaluator& eva
 
 void CGeneticAlgorithm::vInitilized() {
     vReset();
-    for (int i=0; i<i_population; i++) {
-        vec_population.emplace_back(&evaluator,&c_random_generator);
-    }
+    vFillPopulationRandom();
 }
 
 void CGeneticAlgorithm::vRun() {
@@ -103,6 +101,11 @@ void CGeneticAlgorithm::vCheckBest(CInvidual &c_invidual) {
     }
 }
 
+void CGeneticAlgorithm::vFillPopulationRandom() {
+    for (int i=0; i<i_population; i++) {
+        vec_population.emplace_back(&evaluator,&c_random_generator);
+    }
+}
 
 
 void CGeneticAlgorithm::vReset() {

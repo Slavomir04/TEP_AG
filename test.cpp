@@ -119,6 +119,15 @@ TEST(CGeneticAlgorithm,initTest) {
     algorithm.vInitilized();
     EXPECT_EQ(algorithm.vec_population.size(),i_pop);
 
+    algorithm.vInitilized();
+    std::uniform_int_distribution<int> distribution(0,i_pop-1);
+    int a = random_generator.iGetRandomNumber(distribution);
+    int b = random_generator.iGetRandomNumber(distribution);
+    ASSERT_EQ(algorithm.iGetParents(a,b),(evaluator.dEvaluate(algorithm.vec_population[a].vec_genotype)<evaluator.dEvaluate(algorithm.vec_population[b].vec_genotype) ? a : b));
+    ASSERT_EQ(algorithm.iGetParents(a,a),a);
+    ASSERT_EQ(algorithm.iGetParents(b,b),b);
+
+
 }
 
 

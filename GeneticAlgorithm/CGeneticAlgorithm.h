@@ -45,6 +45,7 @@ private:
     void vCross();
     void vMutate();
     void vCheckBest(CInvidual& c_invidual);
+    void vFillPopulationRandom();
     void vReset();
     int iGetParents(int i_candidate_a,int i_candidate_b);
     std::chrono::high_resolution_clock::time_point timeGetCurrentTime();

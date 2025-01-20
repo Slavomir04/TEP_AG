@@ -4,7 +4,9 @@
 
 #include "RandomGenerator.h"
 
-RandomGenerator::RandomGenerator() : c_random_engine(c_rd()) {
+RandomGenerator::RandomGenerator(){
+    std::random_device c_rd;
+    c_random_engine = std::mt19937(c_rd());
 }
 
 double RandomGenerator::dGetRandomNumber(double d_left, double d_right){

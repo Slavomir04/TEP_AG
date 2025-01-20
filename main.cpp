@@ -18,7 +18,7 @@ CPoint generatePoint(double x,double y) {
 }
 
 int main() {
-    /*
+
     std::vector<CPoint> points;
     points.push_back(generatePoint(3,5));
     points.push_back(generatePoint(4,4));
@@ -30,12 +30,13 @@ int main() {
     algorithm.vSetCrossoverProbability(0.6);
     algorithm.vSetMutationProbability(0.2);
     algorithm.vSetEvenPopulationSize(12);
-    algorithm.vSetRunTime(15);
+    algorithm.vSetRunTime(2);
     algorithm.vInitilized();
     algorithm.vRun();
     vShow(algorithm.vecGetBestSolution());
     cout<<"win:"<<algorithm.dGestBestFitness();
-    */
+
+    /*
     CGaussianGroupingEvaluatorFactory c_evaluator_factory(5, 100, 5);
 
     c_evaluator_factory
@@ -60,7 +61,7 @@ int main() {
     algorithm.vRun();
     cout<<algorithm.dGestBestFitness()<<endl;
     delete pc_evaluator;
-
+    */
     return 0;
 }
 
